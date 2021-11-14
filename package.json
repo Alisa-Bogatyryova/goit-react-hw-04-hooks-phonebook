@@ -28,13 +28,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alisa-Bogatyryova/goit-react-hw-02-phonebook"
+    "url": "git+https://github.com/Alisa-Bogatyryova/goit-react-hw-03-phonebook"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/Alisa-Bogatyryova/goit-react-hw-02-phonebook.git/issues"
+    "url": "https://github.com/Alisa-Bogatyryova/goit-react-hw-03-phonebook.git/issues"
   },
-  "homepage": "https://alisa-bogatyryova.github.io/goit-react-hw-02-phonebook",
+  "homepage": "https://alisa-bogatyryova.github.io/goit-react-hw-03-phonebook",
   "eslintConfig": {
     "extends": [
       "react-app",
