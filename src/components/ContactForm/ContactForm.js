@@ -1,69 +1,78 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import s from './ContactForm.module.css';
 
-class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+const ContactForm = ({ addContactPhone }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleChange = e => {
-    const { name, value } = e.currentTarget;
-
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    this.props.onSubmit(this.state);
+    if (!name || !number) {
+      alert('Вы не ввели все контактные данные');
+      return;
+    }
+    if (Number.isNaN(+number)) {
+      alert('Телефонный номер должен содержать только цифры');
+      return;
+    }
 
-    this.setState({ name: '', number: '' });
+    addContactPhone(name, number);
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <label className={s.label}>
-          Name
-          <input
-            className={s.input}
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-                    placeholder="Ivan Ivanov"
-                     pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+  const handleInputChange = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+
+      case 'number':
+        setNumber(value);
+        break;
+
+      default:
+        return;
+    }
+
+  };
+
+  return (
+    <form className={s.form} onSubmit={handleSubmit}>
+      <label className={s.label}>
+        Name
+        <input className={s.input}
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleInputChange}
+          placeholder="Ivan Ivanov"
+          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
   title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
   required
-          />
-        </label>
-        <label className={s.label}>
-          Number
-          <input
-            className={s.input}
-            type="text"
-            name="number"
-            value={number}
-            onChange={this.handleChange}
-                    placeholder="111-11-11"
-                    pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+        />
+      </label>
+      <label className={s.label}>
+        Number
+        <input className={s.input}
+          name="number"
+          type="tel"
+          value={number}
+          onChange={handleInputChange}
+          placeholder="1111111"
+          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
   title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
   required
-          />
-        </label>
-        <button className={s.btn} type="submit">
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+          
+        />
+      </label>
+      <button type="submit" className={s.btn}>Add contact</button>
+    </form>
+  );
 };
+
 
 export default ContactForm;
